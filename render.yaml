@@ -1,9 +1,11 @@
 services:
   - type: web
     name: quickshop-ug
-    runtime: docker
+    env: node
     plan: free
     branch: main
+    buildCommand: npm install
+    startCommand: node server.js
     envVars:
       - key: APP_ENV
         value: production
