@@ -1,4 +1,4 @@
-﻿<div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+<div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="bg-gray-900 px-6 py-6 text-center">
         <div class="w-20 h-20 bg-brand-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-brand-primary/30">
             <i class="fa fa-user text-3xl text-brand-primary"></i>
