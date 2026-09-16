@@ -39,17 +39,32 @@ if (!defined('ADMIN_URL')) {
     define("ADMIN_URL", BASE_URL . "admin/");
 }
 
+// PDO options — SSL enabled for Aiven, with timeout so it fails fast
+$pdo_options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+    PDO::ATTR_TIMEOUT            => 10,
+];
+
+// Enable SSL if connecting to Aiven (non-localhost)
+if ($dbhost !== 'localhost' && $dbhost !== '127.0.0.1') {
+    $pdo_options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+    $pdo_options[PDO::MYSQL_ATTR_SSL_CA]                 = '';
+    // Force SSL mode via DSN
+    $ssl_dsn = ";sslmode=require";
+} else {
+    $ssl_dsn = '';
+}
+
 try {
-    $pdo = new PDO("mysql:host={$dbhost};port={$dbport};dbname={$dbname};charset=utf8mb4", $dbuser, $dbpass, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ]);
+    $dsn = "mysql:host={$dbhost};port={$dbport};dbname={$dbname};charset=utf8mb4{$ssl_dsn}";
+    $pdo = new PDO($dsn, $dbuser, $dbpass, $pdo_options);
 } catch (PDOException $exception) {
     error_log("Database connection failure: " . $exception->getMessage());
     if ($app_env === 'development') {
         die("Database connection error: " . htmlspecialchars($exception->getMessage()));
     } else {
-        die("We are currently experiencing technical difficulties. Please try again later.");
+        die("Service temporarily unavailable. Please try again shortly.");
     }
 }
