@@ -1,16 +1,15 @@
 FROM php:8.2-cli
 
-# Install PDO MySQL extension
-RUN docker-php-ext-install pdo pdo_mysql
+# Install dependencies: PDO MySQL + OpenSSL for Aiven SSL
+RUN apt-get update && apt-get install -y libssl-dev && \
+    docker-php-ext-install pdo pdo_mysql && \
+    rm -rf /var/lib/apt/lists/*
 
-# Set working directory
 WORKDIR /var/www/html
 
-# Copy project files
 COPY . .
 
-# Expose port (Render injects $PORT at runtime)
 EXPOSE 10000
 
-# Start PHP built-in server on Render's dynamic port
+# Shell form so $PORT variable expands correctly at runtime
 CMD php -S 0.0.0.0:${PORT:-10000} -t .
