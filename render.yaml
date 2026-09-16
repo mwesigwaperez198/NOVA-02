@@ -1,11 +1,9 @@
 services:
   - type: web
     name: quickshop-ug
-    env: php
+    runtime: docker
     plan: free
     branch: main
-    buildCommand: echo "No build step required"
-    startCommand: php -S 0.0.0.0:$PORT -t .
     envVars:
       - key: APP_ENV
         value: production
