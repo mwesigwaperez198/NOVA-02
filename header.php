@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 ob_start();
 session_start();
 include("admin/inc/config.php");
@@ -10,17 +10,16 @@ $success_message = '';
 $error_message1 = '';
 $success_message1 = '';
 
-// Getting all language variables into array
 $statement = $pdo->prepare("SELECT * FROM tbl_language");
 $statement->execute();
-$result = $statement->fetchAll(PDO::FETCH_ASSOC);							
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
 	define('LANG_VALUE_'.$row['lang_id'],$row['lang_value']);
 }
 
 $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
 $statement->execute();
-$result = $statement->fetchAll(PDO::FETCH_ASSOC);							
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
 	$logo = $row['logo'];
 	$favicon = $row['favicon'];
@@ -34,33 +33,26 @@ foreach ($result as $row) {
 	$before_body = $row['before_body'];
 }
 
-// Check if a page is on or off from the database
 $cur_page = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-	<!-- Meta Tags -->
-	<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-
-	<!-- Favicon -->
-	<link rel="icon" type="image/png" href="assets/uploads/<?php echo $favicon; ?>">
-
-	<!-- PWA -->
+	<link rel="icon" type="image/png" href="<?php echo BASE_URL; ?>assets/uploads/<?php echo $favicon; ?>">
 	<link rel="manifest" href="<?php echo BASE_URL; ?>manifest.json">
-	<meta name="theme-color" content="#ef4444">
+	<meta name="theme-color" content="#131921">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<meta name="apple-mobile-web-app-title" content="QuickShop">
-	<link rel="apple-touch-icon" href="assets/uploads/<?php echo $favicon; ?>">
+	<link rel="apple-touch-icon" href="<?php echo BASE_URL; ?>assets/uploads/<?php echo $favicon; ?>">
 
 	<?php
 	$statement = $pdo->prepare("SELECT * FROM tbl_page WHERE id=1");
 	$statement->execute();
-	$result = $statement->fetchAll(PDO::FETCH_ASSOC);							
+	$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 	foreach ($result as $row) {
 		$about_meta_title = $row['about_meta_title'];
 		$about_meta_keyword = $row['about_meta_keyword'];
@@ -71,319 +63,159 @@ $cur_page = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+
 		$contact_meta_title = $row['contact_meta_title'];
 		$contact_meta_keyword = $row['contact_meta_keyword'];
 		$contact_meta_description = $row['contact_meta_description'];
+		$about_title = $row['about_title'];
+		$faq_title = $row['faq_title'];
+		$contact_title = $row['contact_title'];
 	}
 
-	if($cur_page == 'index.php' || $cur_page == 'login.php' || $cur_page == 'registration.php' || $cur_page == 'cart.php' || $cur_page == 'checkout.php' || $cur_page == 'forget-password.php' || $cur_page == 'reset-password.php' || $cur_page == 'product-category.php' || $cur_page == 'product.php') {
-		?>
-		<title><?php echo $meta_title_home; ?></title>
-		<meta name="keywords" content="<?php echo $meta_keyword_home; ?>">
-		<meta name="description" content="<?php echo $meta_description_home; ?>">
-		<?php
+	if(in_array($cur_page, ['index.php','login.php','registration.php','cart.php','checkout.php','forget-password.php','reset-password.php','product-category.php','product.php','dashboard.php','search-result.php',''])) {
+		echo "<title>".htmlspecialchars($meta_title_home)."</title>";
+		echo "<meta name='keywords' content='".htmlspecialchars($meta_keyword_home)."'>";
+		echo "<meta name='description' content='".htmlspecialchars($meta_description_home)."'>";
+	} elseif($cur_page == 'about.php') {
+		echo "<title>".htmlspecialchars($about_meta_title)."</title>";
+	} elseif($cur_page == 'faq.php') {
+		echo "<title>".htmlspecialchars($faq_meta_title)."</title>";
+	} elseif($cur_page == 'contact.php') {
+		echo "<title>".htmlspecialchars($contact_meta_title)."</title>";
 	}
-	if($cur_page == 'about.php') {
-		?>
-		<title><?php echo $about_meta_title; ?></title>
-		<meta name="keywords" content="<?php echo $about_meta_keyword; ?>">
-		<meta name="description" content="<?php echo $about_meta_description; ?>">
-		<?php
-	}
-	if($cur_page == 'faq.php') {
-		?>
-		<title><?php echo $faq_meta_title; ?></title>
-		<meta name="keywords" content="<?php echo $faq_meta_keyword; ?>">
-		<meta name="description" content="<?php echo $faq_meta_description; ?>">
-		<?php
-	}
-	if($cur_page == 'contact.php') {
-		?>
-		<title><?php echo $contact_meta_title; ?></title>
-		<meta name="keywords" content="<?php echo $contact_meta_keyword; ?>">
-		<meta name="description" content="<?php echo $contact_meta_description; ?>">
-		<?php
-	}
-	if($cur_page == 'product.php') {
+
+	if($cur_page == 'product.php' && isset($_REQUEST['id'])) {
 		$statement = $pdo->prepare("SELECT * FROM tbl_product WHERE p_id=?");
 		$statement->execute(array($_REQUEST['id']));
-		$result = $statement->fetchAll(PDO::FETCH_ASSOC);							
+		$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 		foreach ($result as $row) {
-		    $og_photo = $row['p_featured_photo'];
-		    $og_title = $row['p_name'];
-		    $og_slug = 'product.php?id='.$_REQUEST['id'];
+			$og_photo = $row['p_featured_photo'];
+			$og_title = $row['p_name'];
+			$og_slug = 'product.php?id='.$_REQUEST['id'];
 			$og_description = substr(strip_tags($row['p_description']),0,200).'...';
 		}
 	}
-	if($cur_page == 'dashboard.php') {
-		?>
-		<title>Dashboard - <?php echo $meta_title_home; ?></title>
-		<meta name="keywords" content="<?php echo $meta_keyword_home; ?>">
-		<meta name="description" content="<?php echo $meta_description_home; ?>">
-		<?php
-	}
 	?>
-	
-	<?php if($cur_page == 'product.php'): ?>
-		<meta property="og:title" content="<?php echo $og_title; ?>">
+
+	<?php if($cur_page == 'product.php' && isset($og_title)): ?>
+		<meta property="og:title" content="<?php echo htmlspecialchars($og_title); ?>">
 		<meta property="og:type" content="website">
 		<meta property="og:url" content="<?php echo BASE_URL.$og_slug; ?>">
-		<meta property="og:description" content="<?php echo $og_description; ?>">
-		<meta property="og:image" content="assets/uploads/<?php echo $og_photo; ?>">
+		<meta property="og:description" content="<?php echo htmlspecialchars($og_description); ?>">
+		<meta property="og:image" content="<?php echo BASE_URL; ?>assets/uploads/<?php echo $og_photo; ?>">
 	<?php endif; ?>
 
-	<!-- Google Fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/main-tailwind.css">
+	<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/font-awesome.min.css">
 
-	<!-- Stylesheets -->
-	<link rel="stylesheet" href="assets/css/main-tailwind.css">
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+	<style>
+		* { font-family: 'Inter', sans-serif; }
+		body { background: #f3f4f6; padding-bottom: 70px; }
+		@media(min-width:768px){ body { padding-bottom: 0; } }
+		.app-header { background: #131921; }
+		.app-search { background: #febd69; border-radius: 4px; }
+		.app-search input { background: white; border-radius: 3px 0 0 3px; }
+		.app-search button { background: #febd69; border-radius: 0 3px 3px 0; }
+		.app-search button:hover { background: #f3a847; }
+		.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e5e7eb; z-index: 100; display: flex; }
+		@media(min-width:768px){ .bottom-nav { display: none; } }
+		.bottom-nav a { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 4px; font-size: 10px; color: #6b7280; text-decoration: none; gap: 3px; }
+		.bottom-nav a.active, .bottom-nav a:hover { color: #131921; }
+		.bottom-nav a i { font-size: 20px; }
+		.cart-badge { position: relative; }
+		.cart-badge .badge { position: absolute; top: -6px; right: -8px; background: #f90; color: #131921; font-size: 9px; font-weight: 800; padding: 1px 4px; border-radius: 10px; }
+		.category-pill { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1px solid #e5e7eb; border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 500; color: #374151; white-space: nowrap; cursor: pointer; transition: all .2s; text-decoration: none; }
+		.category-pill:hover, .category-pill.active { background: #131921; color: white; border-color: #131921; }
+		.product-card { background: white; border-radius: 8px; overflow: hidden; transition: box-shadow .2s; display: flex; flex-direction: column; }
+		.product-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.12); }
+		.product-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+		.prime-badge { background: #00a8e0; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; }
+		.add-to-cart-btn { background: #ffd814; color: #0f1111; font-weight: 600; border: none; border-radius: 20px; padding: 8px 16px; font-size: 13px; cursor: pointer; transition: background .2s; width: 100%; }
+		.add-to-cart-btn:hover { background: #f7ca00; }
+		.section-title { font-size: 20px; font-weight: 700; color: #0f1111; }
+		.deals-banner { background: linear-gradient(135deg, #131921 0%, #232f3e 100%); }
+		.star-rating { color: #f90; font-size: 12px; }
+		.price-tag { color: #b12704; font-weight: 700; font-size: 16px; }
+		.original-price { color: #888; text-decoration: line-through; font-size: 12px; }
+		.scroll-x { overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+		.scroll-x::-webkit-scrollbar { display: none; }
+	</style>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-
-<?php echo $before_head; ?>
-
+	<?php echo $before_head; ?>
 </head>
-<body class="bg-gray-50">
+<body>
 
 <?php echo $after_body; ?>
 
-<!-- top bar -->
-<div class="bg-gray-900 text-white py-2 hidden md:block">
-	<div class="container mx-auto px-4">
-		<div class="flex justify-between items-center text-sm">
-			<div class="flex space-x-6">
-				<div class="flex items-center gap-2">
-					<i class="fa fa-phone text-brand-primary"></i> 
-					<span><?php echo $contact_phone; ?></span>
-				</div>
-				<div class="flex items-center gap-2">
-					<i class="fa fa-envelope-o text-brand-primary"></i> 
-					<span><?php echo $contact_email; ?></span>
-				</div>
-			</div>
-			<div>
-				<ul class="flex space-x-4">
-					<?php
-					$statement = $pdo->prepare("SELECT * FROM tbl_social");
-					$statement->execute();
-					$result = $statement->fetchAll(PDO::FETCH_ASSOC);
-					foreach ($result as $row) {
-						if($row['social_url'] != ''): ?>
-						<li><a href="<?php echo $row['social_url']; ?>" class="hover:text-brand-primary transition-colors"><i class="<?php echo $row['social_icon']; ?>"></i></a></li>
-						<?php endif;
-					}
-					?>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
+<!-- App Header -->
+<header class="app-header sticky top-0 z-50">
+	<!-- Top bar: Logo + Search + Account + Cart -->
+	<div class="px-3 py-2 flex items-center gap-2">
+		<!-- Logo -->
+		<a href="<?php echo BASE_URL; ?>index.php" class="shrink-0 mr-1">
+			<img src="<?php echo BASE_URL; ?>assets/uploads/<?php echo $logo; ?>" alt="QuickShop" class="h-8 w-auto brightness-0 invert">
+		</a>
 
-<div class="bg-white border-b sticky top-0 z-50">
-	<div class="container mx-auto px-4 py-4">
-		
-		<!-- Desktop Header (md and up) -->
-		<div class="hidden md:flex items-center justify-between gap-8">
-			<div class="shrink-0">
-				<a href="index.php" class="block">
-					<img src="assets/uploads/<?php echo $logo; ?>" alt="logo image" class="h-12 w-auto">
-				</a>
-			</div>
-			<div class="flex-1 max-w-xl">
-				<form class="relative" action="search-result.php" method="get">
-					<?php $csrf->echoInputField(); ?>
-					<input type="text" class="w-full border rounded-full px-6 py-4 focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none transition-all" placeholder="<?php echo LANG_VALUE_2; ?>" name="search_text">
-					<button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-primary text-white w-10 h-10 rounded-full hover:bg-red-600 transition-all flex items-center justify-center">
-						<i class="fa fa-search"></i>
-					</button>
-				</form>
-			</div>
-			<div class="flex items-center space-x-6">
-				<div class="flex items-center space-x-4">
-					<?php if(isset($_SESSION['customer'])): ?>
-						<div class="hidden lg:block text-sm text-right">
-							<span class="text-gray-500 uppercase text-[10px] font-bold tracking-widest block mb-0.5"><?php echo LANG_VALUE_13; ?></span>
-							<span class="font-black text-gray-900"><?php echo htmlspecialchars($_SESSION['customer']['cust_name'], ENT_QUOTES, 'UTF-8'); ?></span>
-						</div>
-						<a href="dashboard.php" class="text-gray-600 hover:text-brand-primary transition-colors">
-							<i class="fa fa-user-circle-o text-2xl"></i>
-						</a>
-					<?php else: ?>
-						<a href="login.php" class="text-gray-600 hover:text-brand-primary transition-colors flex items-center gap-2">
-							<i class="fa fa-sign-in text-xl"></i>
-							<span class="hidden sm:inline text-xs font-black uppercase tracking-widest"><?php echo LANG_VALUE_9; ?></span>
-						</a>
-						<a href="registration.php" class="text-gray-600 hover:text-brand-primary transition-colors flex items-center gap-2">
-							<i class="fa fa-user-plus text-xl"></i>
-							<span class="hidden sm:inline text-xs font-black uppercase tracking-widest"><?php echo LANG_VALUE_15; ?></span>
-						</a>
-					<?php endif; ?>
-				</div>
-				<a href="cart.php" class="relative group">
-					<div class="bg-gray-100 p-3 rounded-full group-hover:bg-brand-primary transition-colors">
-						<i class="fa fa-shopping-cart text-gray-700 group-hover:text-white transition-colors"></i>
-					</div>
-					<span class="absolute -top-2 -right-2 bg-brand-primary text-white text-[10px] font-black px-2 py-0.5 rounded-full border-2 border-white">
-						<?php echo isset($_SESSION['cart_p_id']) ? count($_SESSION['cart_p_id']) : '0'; ?>
-					</span>
-				</a>
-			</div>
-		</div>
+		<!-- Search Bar -->
+		<form class="flex-1 flex app-search" action="<?php echo BASE_URL; ?>search-result.php" method="get">
+			<?php $csrf->echoInputField(); ?>
+			<input type="text" name="search_text" placeholder="Search products, brands..." class="flex-1 px-3 py-2 text-sm outline-none min-w-0">
+			<button type="submit" class="px-3 py-2 shrink-0">
+				<i class="fa fa-search text-gray-800"></i>
+			</button>
+		</form>
 
-		<!-- Mobile Header (below md) -->
-		<div class="md:hidden space-y-4">
-			<div class="flex items-center">
-				<div class="w-1/3 flex justify-start">
-					<button class="text-gray-600 focus:outline-none p-2 -ml-2" id="mobile-menu-button">
-						<i class="fa fa-bars text-2xl"></i>
-					</button>
-				</div>
-				<div class="w-1/3 flex justify-center">
-					<a href="index.php" class="block">
-						<img src="assets/uploads/<?php echo $logo; ?>" alt="logo image" class="h-10 w-auto">
-					</a>
-				</div>
-				<div class="w-1/3 flex justify-end items-center space-x-4">
-					<a href="<?php echo isset($_SESSION['customer']) ? 'dashboard.php' : 'login.php'; ?>" class="text-gray-600 hover:text-brand-primary transition-colors">
-						<i class="fa <?php echo isset($_SESSION['customer']) ? 'fa-user-circle-o' : 'fa-sign-in'; ?> text-2xl"></i>
-					</a>
-					<a href="cart.php" class="relative">
-						<div class="bg-gray-100 p-2 rounded-full">
-							<i class="fa fa-shopping-cart text-gray-700"></i>
-						</div>
-						<span class="absolute -top-1.5 -right-1.5 bg-brand-primary text-white text-[10px] font-black px-1.5 py-0.5 rounded-full border-2 border-white">
-							<?php echo isset($_SESSION['cart_p_id']) ? count($_SESSION['cart_p_id']) : '0'; ?>
-						</span>
-					</a>
-				</div>
+		<!-- Account (desktop) -->
+		<a href="<?php echo isset($_SESSION['customer']) ? BASE_URL.'dashboard.php' : BASE_URL.'login.php'; ?>" class="hidden md:flex flex-col items-start text-white shrink-0">
+			<span class="text-xs text-gray-300"><?php echo isset($_SESSION['customer']) ? 'Hello, '.htmlspecialchars($_SESSION['customer']['cust_name']) : 'Hello, sign in'; ?></span>
+			<span class="text-sm font-bold">Account</span>
+		</a>
+
+		<!-- Cart (desktop) -->
+		<a href="<?php echo BASE_URL; ?>cart.php" class="hidden md:flex items-center gap-1 text-white shrink-0">
+			<div class="relative">
+				<i class="fa fa-shopping-cart text-2xl"></i>
+				<span class="absolute -top-2 -right-2 bg-yellow-400 text-gray-900 text-[10px] font-black px-1.5 rounded-full">
+					<?php echo isset($_SESSION['cart_p_id']) ? count($_SESSION['cart_p_id']) : '0'; ?>
+				</span>
 			</div>
-			<div class="w-full">
-				<form class="relative" action="search-result.php" method="get">
-					<?php $csrf->echoInputField(); ?>
-					<input type="text" class="w-full border rounded-full px-6 py-4 focus:ring-2 focus:ring-brand-primary focus:border-transparent outline-none transition-all text-sm" placeholder="<?php echo LANG_VALUE_2; ?>" name="search_text">
-					<button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-brand-primary text-white w-10 h-10 rounded-full flex items-center justify-center">
-						<i class="fa fa-search"></i>
-					</button>
-				</form>
-			</div>
-		</div>
+			<span class="text-sm font-bold">Cart</span>
+		</a>
 	</div>
 
-	<!-- Mobile Menu Drawer -->
-	<div id="mobile-menu-drawer" class="fixed inset-0 z-[100] invisible transition-all duration-300">
-		<div class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-300" id="mobile-menu-overlay"></div>
-		<div class="absolute right-0 top-0 h-full w-80 bg-white shadow-2xl translate-x-full transition-transform duration-300 overflow-y-auto" id="mobile-menu-content">
-			<div class="p-6 border-b flex justify-between items-center bg-gray-900">
-				<span class="font-black text-white uppercase tracking-widest text-lg">Menu</span>
-				<button class="text-gray-400 hover:text-brand-primary transition-colors" id="mobile-menu-close">
-					<i class="fa fa-times text-2xl"></i>
-				</button>
-			</div>
-			<nav class="p-6">
-				<ul class="space-y-6">
-					<li><a href="index.php" class="block font-black text-gray-900 hover:text-brand-primary uppercase tracking-wider">Home</a></li>
-					<?php
-					$statement = $pdo->prepare("SELECT * FROM tbl_top_category WHERE show_on_menu=1");
-					$statement->execute();
-					$result = $statement->fetchAll(PDO::FETCH_ASSOC);
-					foreach ($result as $row) {
-						?>
-						<li class="space-y-4">
-							<a href="product-category.php?id=<?php echo $row['tcat_id']; ?>&type=top-category" class="font-black text-gray-900 hover:text-brand-primary uppercase tracking-wider block border-b pb-2 border-gray-100"><?php echo $row['tcat_name']; ?></a>
-							<ul class="ml-4 space-y-3">
-								<?php
-								$statement1 = $pdo->prepare("SELECT * FROM tbl_mid_category WHERE tcat_id=?");
-								$statement1->execute(array($row['tcat_id']));
-								$result1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
-								foreach ($result1 as $row1) {
-									?>
-									<li><a href="product-category.php?id=<?php echo $row1['mcat_id']; ?>&type=mid-category" class="block text-sm font-bold text-gray-600 hover:text-brand-primary"><?php echo $row1['mcat_name']; ?></a></li>
-									<?php
-								}
-								?>
-							</ul>
-						</li>
-						<?php
-					}
-					?>
-					<li class="pt-6 border-t border-gray-100 space-y-4">
-						<?php
-						$statement = $pdo->prepare("SELECT * FROM tbl_page WHERE id=1");
-						$statement->execute();
-						$result = $statement->fetchAll(PDO::FETCH_ASSOC);		
-						foreach ($result as $row) {
-							$about_title = $row['about_title'];
-							$faq_title = $row['faq_title'];
-							$contact_title = $row['contact_title'];
-						}
-						?>
-						<a href="about.php" class="block font-black text-gray-900 hover:text-brand-primary uppercase tracking-wider text-sm"><?php echo $about_title; ?></a>
-						<a href="faq.php" class="block font-black text-gray-900 hover:text-brand-primary uppercase tracking-wider text-sm"><?php echo $faq_title; ?></a>
-						<a href="contact.php" class="block font-black text-gray-900 hover:text-brand-primary uppercase tracking-wider text-sm"><?php echo $contact_title; ?></a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-
-	<!-- Desktop Main Navigation -->
-	<nav class="hidden md:block bg-gray-50 border-t">
-		<div class="container mx-auto px-4">
-			<ul class="flex items-center space-x-8 py-3">
-				<li><a href="index.php" class="font-bold text-gray-700 hover:text-brand-primary transition-colors uppercase tracking-wider text-sm">Home</a></li>
-				<?php
-				$statement = $pdo->prepare("SELECT * FROM tbl_top_category WHERE show_on_menu=1");
-				$statement->execute();
-				$result = $statement->fetchAll(PDO::FETCH_ASSOC);
-				foreach ($result as $row) {
-					?>
-					<li class="relative group">
-						<a href="product-category.php?id=<?php echo $row['tcat_id']; ?>&type=top-category" class="font-bold text-gray-700 hover:text-brand-primary transition-colors uppercase tracking-wider text-sm flex items-center gap-1">
-							<?php echo $row['tcat_name']; ?>
-							<i class="fa fa-angle-down"></i>
-						</a>
-						<div class="absolute left-0 top-full mt-2 min-w-[14rem] bg-white border border-gray-100 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-							<ul class="py-2">
-								<?php
-								$statement1 = $pdo->prepare("SELECT * FROM tbl_mid_category WHERE tcat_id=?");
-								$statement1->execute(array($row['tcat_id']));
-								$result1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
-								foreach ($result1 as $row1) {
-									?>
-									<li class="relative group/sub">
-										<a href="product-category.php?id=<?php echo $row1['mcat_id']; ?>&type=mid-category" class="flex items-center justify-between px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-brand-primary">
-											<?php echo $row1['mcat_name']; ?>
-											<i class="fa fa-angle-right"></i>
-										</a>
-										<div class="absolute left-full top-0 ml-0.5 min-w-[14rem] bg-white border border-gray-100 shadow-xl opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
-											<ul class="py-2">
-												<?php
-												$statement2 = $pdo->prepare("SELECT * FROM tbl_end_category WHERE mcat_id=?");
-												$statement2->execute(array($row1['mcat_id']));
-												$result2 = $statement2->fetchAll(PDO::FETCH_ASSOC);
-												foreach ($result2 as $row2) {
-													?>
-													<li><a href="product-category.php?id=<?php echo $row2['ecat_id']; ?>&type=end-category" class="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-brand-primary"><?php echo $row2['ecat_name']; ?></a></li>
-													<?php
-												}
-												?>
-											</ul>
-										</div>
-									</li>
-									<?php
-								}
-								?>
-							</ul>
-						</div>
-					</li>
-					<?php
-				}
-				?>
-				<li><a href="about.php" class="font-bold text-gray-700 hover:text-brand-primary transition-colors uppercase tracking-wider text-sm"><?php echo $about_title; ?></a></li>
-				<li><a href="faq.php" class="font-bold text-gray-700 hover:text-brand-primary transition-colors uppercase tracking-wider text-sm"><?php echo $faq_title; ?></a></li>
-				<li><a href="contact.php" class="font-bold text-gray-700 hover:text-brand-primary transition-colors uppercase tracking-wider text-sm"><?php echo $contact_title; ?></a></li>
-			</ul>
+	<!-- Category Nav (desktop) -->
+	<nav class="hidden md:block bg-gray-800 px-4">
+		<div class="flex items-center gap-1 py-1 overflow-x-auto scrollbar-hide">
+			<a href="<?php echo BASE_URL; ?>index.php" class="text-white text-sm px-3 py-1.5 rounded hover:bg-gray-600 whitespace-nowrap font-medium">All</a>
+			<?php
+			$statement = $pdo->prepare("SELECT * FROM tbl_top_category WHERE show_on_menu=1 LIMIT 8");
+			$statement->execute();
+			$cats = $statement->fetchAll(PDO::FETCH_ASSOC);
+			foreach ($cats as $cat): ?>
+				<a href="<?php echo BASE_URL; ?>product-category.php?id=<?php echo $cat['tcat_id']; ?>&type=top-category" class="text-white text-sm px-3 py-1.5 rounded hover:bg-gray-600 whitespace-nowrap"><?php echo htmlspecialchars($cat['tcat_name']); ?></a>
+			<?php endforeach; ?>
+			<a href="<?php echo BASE_URL; ?>about.php" class="text-white text-sm px-3 py-1.5 rounded hover:bg-gray-600 whitespace-nowrap"><?php echo htmlspecialchars($about_title ?? 'About'); ?></a>
+			<a href="<?php echo BASE_URL; ?>contact.php" class="text-white text-sm px-3 py-1.5 rounded hover:bg-gray-600 whitespace-nowrap"><?php echo htmlspecialchars($contact_title ?? 'Contact'); ?></a>
 		</div>
 	</nav>
-</div>
+</header>
 
+<!-- Mobile Bottom Nav -->
+<nav class="bottom-nav md:hidden">
+	<a href="<?php echo BASE_URL; ?>index.php" class="<?php echo $cur_page == 'index.php' || $cur_page == '' ? 'active' : ''; ?>">
+		<i class="fa fa-home"></i>Home
+	</a>
+	<a href="<?php echo BASE_URL; ?>product-category.php?type=all" class="<?php echo $cur_page == 'product-category.php' ? 'active' : ''; ?>">
+		<i class="fa fa-th-large"></i>Categories
+	</a>
+	<a href="<?php echo BASE_URL; ?>search-result.php" class="<?php echo $cur_page == 'search-result.php' ? 'active' : ''; ?>">
+		<i class="fa fa-search"></i>Search
+	</a>
+	<a href="<?php echo BASE_URL; ?>cart.php" class="cart-badge <?php echo $cur_page == 'cart.php' ? 'active' : ''; ?>">
+		<i class="fa fa-shopping-cart"></i>
+		<span class="badge"><?php echo isset($_SESSION['cart_p_id']) ? count($_SESSION['cart_p_id']) : '0'; ?></span>
+		Cart
+	</a>
+	<a href="<?php echo isset($_SESSION['customer']) ? BASE_URL.'dashboard.php' : BASE_URL.'login.php'; ?>" class="<?php echo in_array($cur_page, ['dashboard.php','login.php','registration.php']) ? 'active' : ''; ?>">
+		<i class="fa fa-user"></i><?php echo isset($_SESSION['customer']) ? 'Account' : 'Sign In'; ?>
+	</a>
+</nav>
