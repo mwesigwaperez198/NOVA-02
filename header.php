@@ -1,4 +1,3 @@
-<!-- This is main configuration File -->
 <?php
 ob_start();
 session_start();
