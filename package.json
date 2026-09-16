@@ -5,6 +5,8 @@
   "scripts": {
     "build:css": "tailwindcss -i ./assets/css/input.css -o ./assets/css/main-tailwind.css --watch",
     "build:prod": "tailwindcss -i ./assets/css/input.css -o ./assets/css/main-tailwind.css --minify",
+    "cap:sync": "npx cap sync android",
+    "cap:open": "npx cap open android",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,9 +16,13 @@
   "devDependencies": {
     "autoprefixer": "^10.5.0",
     "postcss": "^8.5.14",
-    "tailwindcss": "^4.3.0"
+    "tailwindcss": "^4.3.0",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
     "@tailwindcss/cli": "^4.3.0"
   }
 }
