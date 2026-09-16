@@ -1,7 +1,7 @@
-<?php require_once('header.php'); ?>
+﻿<?php require_once('header.php'); ?>
 
 <?php
-$statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+$statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);                            
 foreach ($result as $row) {
@@ -168,7 +168,7 @@ if(!isset($_SESSION['cart_p_id'])) {
                                         <input type="hidden" name="amount" value="<?php echo $total_cart_price; ?>">
                                         <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 text-xs text-gray-600 leading-relaxed italic">
                                             <?php
-                                            $statement = $pdo->prepare("SELECT bank_detail FROM tbl_settings WHERE id=1");
+                                            $statement = $pdo->prepare("SELECT bank_detail FROM tbl_settings_view WHERE id=1");
                                             $statement->execute();
                                             echo nl2br($statement->fetchColumn());
                                             ?>

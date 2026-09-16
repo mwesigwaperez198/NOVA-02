@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Environment & Error Handling Configuration
 $app_env = getenv('APP_ENV') ?: 'production';
 

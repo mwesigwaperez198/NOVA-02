@@ -1,4 +1,4 @@
-<?php require_once('header.php'); ?>
+﻿<?php require_once('header.php'); ?>
 
 <?php
 $statement = $pdo->prepare("SELECT * FROM tbl_page WHERE id=1");
@@ -8,7 +8,7 @@ foreach ($result as $row) {
     $contact_title = $row['contact_title'];
     $contact_banner = $row['contact_banner'];
 }
-$statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+$statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);                            
 foreach ($result as $row) {

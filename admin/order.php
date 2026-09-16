@@ -1,4 +1,4 @@
-<?php require_once('header.php'); ?>
+﻿<?php require_once('header.php'); ?>
 
 <?php
 $error_message = '';
@@ -26,7 +26,7 @@ if(isset($_POST['form1'])) {
         }
 
         // Getting Admin Email Address
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                            
         foreach ($result as $row) {

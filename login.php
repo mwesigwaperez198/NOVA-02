@@ -1,7 +1,7 @@
-<?php require_once('header.php'); ?>
+﻿<?php require_once('header.php'); ?>
 <!-- fetching row banner login -->
 <?php
-$statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+$statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);                            
 foreach ($result as $row) {
@@ -106,7 +106,7 @@ if(isset($_POST['form1'])) {
                                 <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                                     <i class="fa fa-lock"></i>
                                 </span>
-                                <input type="password" class="w-full border-2 border-gray-100 rounded-xl pl-12 pr-4 py-4 focus:border-brand-primary outline-none transition-all" name="cust_password" placeholder="••••••••">
+                                <input type="password" class="w-full border-2 border-gray-100 rounded-xl pl-12 pr-4 py-4 focus:border-brand-primary outline-none transition-all" name="cust_password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
                             </div>
                         </div>
 

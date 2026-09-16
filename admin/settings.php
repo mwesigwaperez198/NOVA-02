@@ -1,4 +1,4 @@
-<?php require_once('header.php'); ?>
+﻿<?php require_once('header.php'); ?>
 
 <?php
 //Change Logo
@@ -22,7 +22,7 @@ if(isset($_POST['form1'])) {
 
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -63,7 +63,7 @@ if(isset($_POST['form2'])) {
 
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -169,7 +169,7 @@ if(isset($_POST['form6_7'])) {
 
         if($path != '') {
             // removing the existing photo
-            $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+            $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
             $statement->execute();
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
             foreach ($result as $row) {
@@ -301,7 +301,7 @@ if(isset($_POST['form6_1'])) {
 
         if($path != '') {
             // removing the existing photo
-            $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+            $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
             $statement->execute();
             $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
             foreach ($result as $row) {
@@ -384,7 +384,7 @@ if(isset($_POST['form7_1'])) {
 
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -425,7 +425,7 @@ if(isset($_POST['form7_2'])) {
 
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -466,7 +466,7 @@ if(isset($_POST['form7_3'])) {
 
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -507,7 +507,7 @@ if(isset($_POST['form7_4'])) {
 
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -549,7 +549,7 @@ if(isset($_POST['form7_6'])) {
 
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -590,7 +590,7 @@ if(isset($_POST['form7_7'])) {
 
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -631,7 +631,7 @@ if(isset($_POST['form7_8'])) {
 
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -672,7 +672,7 @@ if(isset($_POST['form7_9'])) {
 
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -713,7 +713,7 @@ if(isset($_POST['form7_10'])) {
 /*
     if($valid == 1) {
         // removing the existing photo
-        $statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+        $statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
         foreach ($result as $row) {
@@ -783,7 +783,7 @@ if(isset($_POST['form11'])) {
 </section>
 
 <?php
-$statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+$statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);                           
 foreach ($result as $row) {

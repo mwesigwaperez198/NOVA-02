@@ -1,4 +1,4 @@
-<?php require_once('header.php'); ?>
+﻿<?php require_once('header.php'); ?>
 
 <?php
 if(!isset($_REQUEST['id'])) {
@@ -538,3 +538,4 @@ function switchTab(tabId) {
 </div>
 
 <?php require_once('footer.php'); ?>
+

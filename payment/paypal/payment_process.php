@@ -1,11 +1,11 @@
-<?php
+﻿<?php
 ob_start();
 session_start();
 require_once('../../admin/inc/config.php');
 
 $error_message = '';
 
-$statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+$statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row) {
@@ -29,7 +29,7 @@ if (!isset($_POST["txn_id"]) && !isset($_POST["txn_type"])){
 	// Firstly Append paypal account to querystring
 	$querystring .= "?business=".urlencode($paypal_email)."&";
 	
-	// Append amount& currency (£) to quersytring so it cannot be edited in html
+	// Append amount& currency (Â£) to quersytring so it cannot be edited in html
 	
 	//The item name and amount can be brought in dynamically by querying the $_POST['item_number'] variable.
 	$querystring .= "item_name=".urlencode($item_name)."&";

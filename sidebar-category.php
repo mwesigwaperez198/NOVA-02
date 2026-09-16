@@ -1,4 +1,4 @@
-<div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+﻿<div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="bg-gray-900 px-6 py-4">
         <h3 class="text-white font-bold uppercase tracking-wider text-sm"><?php echo LANG_VALUE_49; ?></h3>
     </div>

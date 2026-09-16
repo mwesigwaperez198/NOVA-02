@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once "../../admin/inc/config.php";
 
 $raw_post_data = file_get_contents('php://input');

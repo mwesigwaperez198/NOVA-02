@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * A simple CSRF class to protect forms against CSRF attacks. The class uses
  * PHP sessions for storage.
@@ -132,3 +132,4 @@ class CSRF_Protect
 		$_SESSION[$this->namespace] = $token;
 	}
 }
+

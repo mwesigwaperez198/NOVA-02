@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -17,10 +17,11 @@
 </head>
 <body>
   <div class="card">
-    <div class="icon">📶</div>
+    <div class="icon">ðŸ“¶</div>
     <h1>You're Offline</h1>
     <p>No internet connection. Previously visited pages are still available. Connect to browse new products.</p>
     <button onclick="window.location.reload()">Try Again</button>
   </div>
 </body>
 </html>
+

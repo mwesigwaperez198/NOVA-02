@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 ob_start();
 session_start();
 include("admin/inc/config.php");
@@ -18,7 +18,7 @@ foreach ($result as $row) {
 	define('LANG_VALUE_'.$row['lang_id'],$row['lang_value']);
 }
 
-$statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+$statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);							
 foreach ($result as $row) {
@@ -386,3 +386,4 @@ $cur_page = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+
 		</div>
 	</nav>
 </div>
+

@@ -1,5 +1,5 @@
-<?php
-$statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+﻿<?php
+$statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 foreach ($result as $row)
@@ -142,7 +142,7 @@ foreach ($result as $row)
 </a>
 
 <?php
-$statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+$statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);                            
 foreach ($result as $row) {
@@ -264,7 +264,7 @@ $(window).scroll(function() {
             const newWorker = reg.installing;
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // New version deployed — auto-reload to get fresh content
+                // New version deployed â€” auto-reload to get fresh content
                 window.location.reload();
               }
             });

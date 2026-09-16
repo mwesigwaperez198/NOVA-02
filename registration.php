@@ -1,7 +1,7 @@
-<?php require_once('header.php'); ?>
+﻿<?php require_once('header.php'); ?>
 
 <?php
-$statement = $pdo->prepare("SELECT * FROM tbl_settings WHERE id=1");
+$statement = $pdo->prepare("SELECT * FROM tbl_settings_view WHERE id=1");
 $statement->execute();
 $result = $statement->fetchAll(PDO::FETCH_ASSOC);                            
 foreach ($result as $row) {
@@ -257,13 +257,13 @@ if (isset($_POST['form1'])) {
                             <!-- Password -->
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide"><?php echo LANG_VALUE_96; ?> *</label>
-                                <input type="password" class="w-full border-2 border-gray-100 rounded-xl px-4 py-4 focus:border-brand-primary outline-none transition-all" name="cust_password" placeholder="••••••••">
+                                <input type="password" class="w-full border-2 border-gray-100 rounded-xl px-4 py-4 focus:border-brand-primary outline-none transition-all" name="cust_password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
                             </div>
 
                             <!-- Re-Password -->
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wide"><?php echo LANG_VALUE_98; ?> *</label>
-                                <input type="password" class="w-full border-2 border-gray-100 rounded-xl px-4 py-4 focus:border-brand-primary outline-none transition-all" name="cust_re_password" placeholder="••••••••">
+                                <input type="password" class="w-full border-2 border-gray-100 rounded-xl px-4 py-4 focus:border-brand-primary outline-none transition-all" name="cust_re_password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
                             </div>
                         </div>
 
