@@ -1,0 +1,26 @@
+# Sensitive credentials & login info
+**/01 LOGIN DETAILS & PROJECT INFO.txt
+
+# Database files
+DATABASE FILE/
+*.sql
+
+# Uploaded user files
+assets/uploads/
+
+# Environment & config (if .env used)
+.env
+.env.*
+
+# Temp/compiled JS
+tmp_js/
+
+# PHP lint results
+php_lint_results.txt
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
