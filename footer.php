@@ -254,5 +254,24 @@ $(window).scroll(function() {
     }
 </script>
 <?php echo $before_body; ?>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('<?php echo BASE_URL; ?>sw.js')
+        .then(reg => {
+          reg.addEventListener('updatefound', () => {
+            const newWorker = reg.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New version deployed — auto-reload to get fresh content
+                window.location.reload();
+              }
+            });
+          });
+        });
+    });
+  }
+</script>
 </body>
 </html>

@@ -49,6 +49,15 @@ $cur_page = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+
 	<!-- Favicon -->
 	<link rel="icon" type="image/png" href="assets/uploads/<?php echo $favicon; ?>">
 
+	<!-- PWA -->
+	<link rel="manifest" href="<?php echo BASE_URL; ?>manifest.json">
+	<meta name="theme-color" content="#ef4444">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="QuickShop">
+	<link rel="apple-touch-icon" href="assets/uploads/<?php echo $favicon; ?>">
+
 	<?php
 	$statement = $pdo->prepare("SELECT * FROM tbl_page WHERE id=1");
 	$statement->execute();
