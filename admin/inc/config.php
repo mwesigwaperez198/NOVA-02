@@ -16,6 +16,7 @@ date_default_timezone_set(getenv('APP_TIMEZONE') ?: 'Africa/Kampala');
 
 // Database Credentials
 $dbhost = getenv('DB_HOST') ?: 'localhost';
+$dbport = getenv('DB_PORT') ?: '3306';
 $dbname = getenv('DB_NAME') ?: 'ecommerceweb';
 $dbuser = getenv('DB_USER') ?: 'root';
 $dbpass = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '';
@@ -47,7 +48,7 @@ if (!defined('ADMIN_URL')) {
 }
 
 try {
-    $pdo = new PDO("mysql:host={$dbhost};dbname={$dbname};charset=utf8mb4", $dbuser, $dbpass, [
+    $pdo = new PDO("mysql:host={$dbhost};port={$dbport};dbname={$dbname};charset=utf8mb4", $dbuser, $dbpass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,

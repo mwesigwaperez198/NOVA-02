@@ -4,7 +4,7 @@ services:
     env: php
     plan: free
     branch: main
-    buildCommand: composer install --no-dev --optimize-autoloader 2>/dev/null || true
+    buildCommand: echo "No build step required"
     startCommand: php -S 0.0.0.0:$PORT -t .
     envVars:
       - key: APP_ENV
@@ -12,6 +12,8 @@ services:
       - key: APP_TIMEZONE
         value: Africa/Kampala
       - key: DB_HOST
+        sync: false
+      - key: DB_PORT
         sync: false
       - key: DB_NAME
         sync: false
