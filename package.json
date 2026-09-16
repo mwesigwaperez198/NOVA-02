@@ -7,7 +7,6 @@
     "build:prod": "tailwindcss -i ./assets/css/input.css -o ./assets/css/main-tailwind.css --minify",
     "cap:sync": "npx cap sync android",
     "cap:open": "npx cap open android",
-    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
